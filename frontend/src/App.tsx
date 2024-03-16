@@ -1,7 +1,10 @@
+import AllRoutes from "./routes/AllRoutes"
 
 const App = () => {
   return (
-    <div>App</div>
+    <div>
+      <AllRoutes />
+    </div>
   )
 }
 
