@@ -11,7 +11,7 @@ const getUsers = async (req, res) => {
     let users = await UserModel.find();
     res.send(users);
   } catch (err) {
-    res.send(err);
+    res.status(500).send({message: "something went wrong",err});
   }
 };
 
@@ -23,7 +23,7 @@ const registerUser = async (req, res) => {
     const alreadyUser = await UserModel.findOne({ email });
 
     if (alreadyUser) {
-      res.status(400).send('User already exists, please login');
+      res.status(400).send({message: 'User already exists, please login'});
     } else {
       bcrypt.hash(password, Number(process.env.saltRounds), async (err, hash) => {
         if (hash) {
@@ -35,14 +35,14 @@ const registerUser = async (req, res) => {
           });
 
           await user.save();
-          res.status(200).send('Registered');
+          res.status(200).send({message: "Registered Successfully!", user});
         } else {
-          res.status(500).send(err);
+          res.status(500).send({message: "something went wrong",err});
         }
       });
     }
   } catch (err) {
-    res.status(500).send(err);
+    res.status(500).send({message: "something went wrong",err});
   }
 };
 
@@ -52,7 +52,7 @@ const loginUser = async (req, res) => {
 
   // Check if email and password are present in the request body
   if (!email || !password) {
-    return res.status(400).send('Email and password are required');
+    return res.status(400).send({message: 'Email and password are required'});
   }
 
   try {
@@ -60,20 +60,20 @@ const loginUser = async (req, res) => {
 
     // Check if user exists in the database
     if (!user) {
-      return res.status(404).send('User not found');
+      return res.status(404).send({message: 'User not found'});
     }
 
     bcrypt.compare(password, user.password, (err, result) => {
       if (result) {
         const token = jwt.sign({ userID: user._id }, process.env.secretKey);
         user.save();
-        res.send({ msg: 'Login Successful', token: token, name: user.name });
+        res.send({ message: 'Login Successful', user: {id: user._id, token: token, name: user.name }});
       } else {
-        res.status(401).send('Incorrect password');
+        res.status(401).send({message: 'Incorrect password'});
       }
     });
   } catch (err) {
-    res.status(500).send(err);
+    res.status(500).send({message: "something went wrong",err});
   }
 };
 
@@ -86,15 +86,15 @@ const updateUserPoints = async (req, res) => {
       const user = await UserModel.findById(userID);
   
       if (!user) {
-        return res.status(404).send('User not found');
+        return res.status(404).send({message: 'User not found'});
       }
   
       user.points = points;
       await user.save();
   
-      res.status(200).send('Points updated successfully');
+      res.status(200).send({message: 'Points updated successfully'});
     } catch (err) {
-      res.status(500).send(err);
+      res.status(500).send({message: "something went wrong",err});
     }
 };
 
