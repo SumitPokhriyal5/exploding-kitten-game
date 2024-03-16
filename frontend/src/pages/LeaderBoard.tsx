@@ -23,7 +23,7 @@ const Leaderboard = () => {
     dispatch(getUsersApi());
   }, []);
 
-  allUsers.sort((a:IUser, b: IUser) => b.points - a.points);
+  if(allUsers)allUsers.sort((a:IUser, b: IUser) => b.points - a.points);
 
   if(loading)return <div style={{textAlign:'center',fontSize:25,fontWeight:'bold'}}>Loading...</div>
 
@@ -39,7 +39,7 @@ const Leaderboard = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {allUsers.map((el:IUser, i: number) => (
+            {allUsers?.map((el:IUser, i: number) => (
               <Tr key={el._id}>
                 <Td>{i + 1}</Td>
                 <Td>{el.name}</Td>
