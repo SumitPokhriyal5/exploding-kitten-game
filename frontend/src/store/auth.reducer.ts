@@ -1,4 +1,4 @@
-import { AUTH_ERROR, AUTH_GET_USERS, AUTH_LOADING, AUTH_LOGIN_SUCCESS, AUTH_LOGOUT, AUTH_SUCCESS, UPDATE_USER_DATA } from "./auth.types";
+import { AUTH_ERROR, AUTH_GET_USERS, AUTH_LOADING, AUTH_LOGIN_SUCCESS, AUTH_LOGOUT, AUTH_SUCCESS } from "./auth.types";
 import { ILoginUser, IUser } from "../types/auth.types";
 import { Reducer } from "redux";
 
@@ -36,9 +36,10 @@ export const authReducer: Reducer<AuthState | any> = (
         }
 
         case AUTH_LOGIN_SUCCESS: {
-            localStorage.setItem("userToken", JSON.stringify(payload.token));
-            localStorage.setItem("username", JSON.stringify(payload.name));
-            localStorage.setItem("userPoints", JSON.stringify(payload.points));
+            const loginPayload = payload as { token: string; name: string; points: number };
+            localStorage.setItem("userToken", JSON.stringify(loginPayload.token));
+            localStorage.setItem("username", JSON.stringify(loginPayload.name));
+            localStorage.setItem("userPoints", JSON.stringify(loginPayload.points));
             return { loading: false, error: false, isAuth: true, user: payload as ILoginUser };
         }
 

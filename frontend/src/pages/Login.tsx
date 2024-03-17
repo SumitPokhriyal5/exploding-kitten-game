@@ -19,7 +19,7 @@ import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import logo from "/exploding-kitten-logo.png";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
 import { signinApi } from "../store/auth.api";
@@ -148,12 +148,13 @@ const Login = () => {
                 justifyContent="center"
               >
                 <Text color={"black"}>New to Exploding Kittens?</Text>
-                <Text
+                <Link to={'/signup'}><Text
                   _hover={{ textDecoration: "underline" }}
                   cursor={'pointer'}
                 >
                   Create an account
                 </Text>
+                </Link>
               </Box>
             </Box>
           </Box>

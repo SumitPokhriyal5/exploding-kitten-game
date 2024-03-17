@@ -11,14 +11,13 @@ import {
   Stack,
   InputRightElement,
   InputGroup,
-  Link,
   Checkbox,
 } from "@chakra-ui/react";
 
 import '../styles/auth.css'
 import logo from "/exploding-kitten-logo.png";
 
-// import { Link as RouteLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
@@ -266,7 +265,7 @@ const Register = () => {
                   <Checkbox onChange={() => setIsChecked(!isChecked)}>
                     I accept
                   </Checkbox>
-                  <Link color="blue.500">Terms of Service</Link>
+                  <Text color="blue.500">Terms of Service</Text>
                 </Stack>
                 <Box>
                   <Button
@@ -294,12 +293,12 @@ const Register = () => {
                   justifyContent="center"
                 >
                   <Text color="black">Existing User?</Text>
-                  <Text
+                 <Link to={"/login"}> <Text
                     _hover={{ textDecoration: "underline" }}
                     cursor={'pointer'}
                   >
                     Log in
-                  </Text>
+                  </Text></Link>
                 </Box>
               </Stack>
             </Box>
