@@ -2,6 +2,7 @@ export interface ILoginUser {
     id: string,
     name: string,
     token: string,
+    points: number
 }
 
 export interface IUserLogin {

@@ -67,7 +67,7 @@ const loginUser = async (req, res) => {
       if (result) {
         const token = jwt.sign({ userID: user._id }, process.env.secretKey);
         user.save();
-        res.send({ message: 'Login Successful', user: {id: user._id, token: token, name: user.name }});
+        res.send({ message: 'Login Successful', user: {id: user._id, token: token, name: user.name, points: user.points }});
       } else {
         res.status(401).send({message: 'Incorrect password'});
       }
@@ -92,7 +92,7 @@ const updateUserPoints = async (req, res) => {
       user.points = points;
       await user.save();
   
-      res.status(200).send({message: 'Points updated successfully'});
+      res.status(200).send({message: 'Points updated successfully', user});
     } catch (err) {
       res.status(500).send({message: "something went wrong",err});
     }

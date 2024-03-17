@@ -60,10 +60,10 @@ export const signupApi = (userData: IUserSignup, navigate: any) => async (dispat
           console.log(data)
 
           dispatch(res.ok ? successAuth() : errorAuth());
-          if(res.ok){
-            navigate('/login')
-            toast.success(data.message)
-          }else  toast.error(data.message)
+          if (res.ok) {
+               navigate('/login')
+               toast.success(data.message)
+          } else toast.error(data.message)
 
 
      } catch (error: any) {
@@ -86,26 +86,51 @@ export const logoutApi = () => (dispatch: AppDispatch) => {
 export const getUsersApi = () => async (dispatch: AppDispatch) => {
      // Start loading
      dispatch(loadAuth());
-   
+
      try {
-       const res = await fetch(`${import.meta.env.VITE_APP_SERVER_URL}/users`, {
-         method: 'GET',
-         headers: {
-           'Content-Type': 'application/json'
-         }
-       });
-   
-       const data = await res.json();
-   
-       if (res.ok) {
-         dispatch(getAllUsers(data));
-       } else {
-         dispatch(errorAuth());
-         toast.error(data.message);
-       }
+          const res = await fetch(`${import.meta.env.VITE_APP_SERVER_URL}/users`, {
+               method: 'GET',
+               headers: {
+                    'Content-Type': 'application/json'
+               }
+          });
+
+          const data = await res.json();
+
+          if (res.ok) {
+               dispatch(getAllUsers(data));
+          } else {
+               dispatch(errorAuth());
+               toast.error(data.message);
+          }
      } catch (error: any) {
-       console.log('error:', error);
-       dispatch(errorAuth());
-       toast.error("Failed to fetch users");
+          console.log('error:', error);
+          dispatch(errorAuth());
+          toast.error("Failed to fetch users");
      }
-   }
+}
+
+export const updatePointsApi = (points: number) => async (dispatch: AppDispatch) => {
+     // Start loading
+     dispatch(loadAuth());
+
+     const token = localStorage.getItem('userToken');
+     const parsedToken = token ? JSON.parse(token) : "";
+
+     try {
+          await fetch(`${import.meta.env.VITE_APP_SERVER_URL}/users/updatePoints`, {
+               method: 'PUT',
+               body: JSON.stringify({ points }),
+               headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': parsedToken
+               }
+          });
+
+          
+     } catch (error: any) {
+          console.log('error:', error);
+          dispatch(errorAuth());
+          toast.error("Failed to update points");
+     }
+}

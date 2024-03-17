@@ -43,9 +43,6 @@ const Navbar: React.FC = () => {
       background="transparent"
       maxW="98vw"
       m="auto"
-      zIndex={2}
-      position="sticky"
-      top="0px"
     >
       <Flex
         bg={useColorModeValue("white", "gray.800")}
